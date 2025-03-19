@@ -43,3 +43,21 @@ SET SQL_SAFE_UPDATES = 1;
 
 -- 7/ 啟動一個資料庫交易，將所有員工的薪資調升10%，設定一個交易儲存點，刪除所有MY_EMP資料表中的資料，確認資料已被你刪光了，放棄刪除資料的動作，確認交易
 
+SELECT *
+FROM my_emp;
+
+START TRANSACTION;
+SET AUTOCOMMIT = 0;
+SET SQL_SAFE_UPDATES = 0;
+UPDATE my_emp
+	SET salary = salary*1.1;
+SAVEPOINT tra;
+SELECT *
+	FROM my_emp;
+DELETE FROM my_emp;
+SELECT *
+	FROM my_emp;
+ROLLBACK to tra;
+SELECT *
+	FROM my_emp;
+COMMIT;
